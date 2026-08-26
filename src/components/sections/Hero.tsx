@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, Download, Sparkles } from "lucide-react";
 import portrait from "@/assets/portrait.jpg";
+import { pressable, floating } from "@/lib/motion-presets";
 
 export function Hero() {
   const reduce = useReducedMotion();
@@ -51,16 +52,14 @@ export function Hero() {
 
           <motion.div {...fade(0.32)} className="mt-8 flex flex-wrap gap-3">
             <motion.a
-              whileHover={reduce ? undefined : { scale: 1.04 }}
-              whileTap={reduce ? undefined : { scale: 0.97 }}
+              {...pressable(reduce)}
               href="#projects"
               className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-soft transition-colors hover:bg-primary-hover"
             >
               View Projects <ArrowRight size={16} />
             </motion.a>
             <motion.a
-              whileHover={reduce ? undefined : { scale: 1.04 }}
-              whileTap={reduce ? undefined : { scale: 0.97 }}
+              {...pressable(reduce)}
               href="/resume.pdf"
               className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-surface"
             >
@@ -92,8 +91,7 @@ export function Hero() {
           className="relative mx-auto w-full max-w-sm"
         >
           <motion.div
-            animate={reduce ? undefined : { y: [0, -14, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            {...floating(reduce)}
             className="relative"
           >
             <div className="absolute -top-8 -left-8 h-28 w-28 rounded-full bg-primary/15 blur-2xl" />
@@ -108,8 +106,7 @@ export function Hero() {
               />
             </div>
             <motion.div
-              animate={reduce ? undefined : { y: [0, 10, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              {...floating(reduce, -10, 5)}
               className="card-soft absolute -bottom-6 -left-6 flex items-center gap-2 px-4 py-3"
             >
               <Sparkles size={16} className="text-primary" />

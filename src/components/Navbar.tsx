@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { Menu, X, FileText } from "lucide-react";
 import { useActiveSection, useScrolled } from "@/hooks/useActiveSection";
+import { pressable } from "@/lib/motion-presets";
 
 const links = [
   { id: "home", label: "Home" },
@@ -65,8 +66,7 @@ export function Navbar() {
 
         <div className="flex items-center gap-2">
           <motion.a
-            whileHover={reduce ? undefined : { scale: 1.04 }}
-            whileTap={reduce ? undefined : { scale: 0.97 }}
+            {...pressable(reduce)}
             href="/resume.pdf"
             className="hidden items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-soft transition-colors hover:bg-primary-hover sm:inline-flex"
           >
