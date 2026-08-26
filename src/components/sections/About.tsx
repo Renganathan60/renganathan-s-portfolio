@@ -2,15 +2,15 @@ import { MapPin, Mail, Briefcase, GraduationCap, Award, CheckCircle2 } from "luc
 import { Reveal, SectionHeading } from "@/components/Reveal";
 
 const quickInfo = [
-  { icon: MapPin, label: "Location", value: "Tamil Nadu, India" },
-  { icon: Mail, label: "Email", value: "renganathan.dev@gmail.com" },
-  { icon: Briefcase, label: "Experience", value: "Open to internships" },
+  { icon: MapPin, label: "Location", value: "Trichy, Tamil Nadu" },
+  { icon: Mail, label: "Email", value: "renganathans757@gmail.com" },
+  { icon: Briefcase, label: "Experience", value: "Open to Full Time Role" },
 ];
 
 const highlights = [
   { icon: GraduationCap, title: "Education", value: "BE Computer Science, 2023 – 2027" },
-  { icon: Award, title: "CGPA", value: "7.455 / 10" },
-  { icon: CheckCircle2, title: "Availability", value: "Immediately available for internship" },
+  { icon: Award, title: "CGPA", value: "7.47 / 10" },
+  { icon: CheckCircle2, title: "Availability", value: "Immediately available for Full Time Role" },
 ];
 
 export function About() {
@@ -50,7 +50,11 @@ export function About() {
 
           <div className="grid gap-4">
             {quickInfo.map((item, i) => (
-              <Reveal key={item.label} delay={i * 0.08} className="card-soft flex items-center gap-4 p-6">
+              <Reveal
+                key={item.label}
+                delay={i * 0.08}
+                className="card-soft flex items-center gap-4 p-6"
+              >
                 <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-primary-soft text-primary">
                   <item.icon size={20} />
                 </span>

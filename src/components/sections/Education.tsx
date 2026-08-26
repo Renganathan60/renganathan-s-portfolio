@@ -5,33 +5,33 @@ const timeline = [
   {
     icon: GraduationCap,
     period: "2023 – 2027",
-    title: "BE Computer Science and Engineering",
-    meta: "CGPA 7.455",
+    title: "Bachelor of Engineering (Computer Science and Engineering)",
+    institution: "Sri Shakthi Institute of Engineering and Technology, Coimbatore",
+    meta: "CGPA 7.47",
     detail:
       "Coursework in data structures, DBMS, operating systems and web technologies, alongside hands-on frontend project work.",
   },
   {
     icon: School,
-    period: "Completed",
+    period: "2022 – 2023",
     title: "Higher Secondary Certificate (HSC)",
+    institution: "Government Higher Secondary School",
     meta: "77.83%",
-    detail: "Computer Science stream, with early exposure to programming fundamentals.",
+    detail: "Computer Science stream, with strong foundations in programming and mathematics.",
   },
 ];
 
 const certifications = [
-  { title: "Java Programming", issuer: "Simplilearn" },
-  { title: "HTML & CSS Responsive Development", issuer: "Udemy" },
+  { title: "Java Programming for Beginners", issuer: "Simplilearn" },
+  { title: "Complete HTML & CSS Responsive Web Development", issuer: "Udemy" },
+  { title: "GitHub Developer Toolkit", issuer: "NoviTech R&D Private Limited" },
 ];
 
 export function Education() {
   return (
     <section id="education" className="py-24">
       <div className="section-shell">
-        <SectionHeading
-          eyebrow="Education"
-          title="Academic background & certifications"
-        />
+        <SectionHeading eyebrow="Education" title="Academic background & certifications" />
 
         <div className="mt-14 grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="relative pl-8">
@@ -45,7 +45,8 @@ export function Education() {
                   {item.period}
                 </p>
                 <h3 className="mt-1 text-lg font-bold text-foreground">{item.title}</h3>
-                <p className="mt-1 inline-flex rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-accent-foreground">
+                <p className="text-sm font-medium text-muted-foreground">{item.institution}</p>
+                <p className="mt-2 inline-flex rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-accent-foreground">
                   {item.meta}
                 </p>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.detail}</p>
@@ -59,7 +60,11 @@ export function Education() {
             </h3>
             <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
               {certifications.map((c, i) => (
-                <Reveal key={c.title} delay={i * 0.1} className="card-soft flex items-start gap-4 p-6">
+                <Reveal
+                  key={c.title}
+                  delay={i * 0.1}
+                  className="card-soft flex items-start gap-4 p-6"
+                >
                   <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-primary-soft text-primary">
                     <BadgeCheck size={20} />
                   </span>

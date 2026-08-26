@@ -109,7 +109,9 @@ export function Projects() {
                   </motion.a>
                   <motion.a
                     {...pressable(reduce)}
-                    href="https://github.com/"
+                    href="https://github.com/Renganathan60"
+                    target="_blank"
+                    rel="noreferrer"
                     className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-surface"
                   >
                     <Github size={16} /> GitHub

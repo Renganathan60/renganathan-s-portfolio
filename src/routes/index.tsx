@@ -1,16 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/sections/Hero";
-import { About } from "@/components/sections/About";
-import { Skills } from "@/components/sections/Skills";
-import { Projects } from "@/components/sections/Projects";
-import { Education } from "@/components/sections/Education";
-import { Contact } from "@/components/sections/Contact";
+import { PageTransition } from "@/components/PageTransition";
 
-const title = "Renganathan S — Frontend Developer Portfolio";
+const title = "Renganathan S — Frontend Developer";
 const description =
-  "Frontend developer building responsive React, JavaScript and Tailwind CSS interfaces. Projects, skills, education and contact details.";
+  "Frontend developer building responsive, high-performance React and JavaScript web applications.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,22 +17,13 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: Index,
+  component: HomePage,
 });
 
-function Index() {
+function HomePage() {
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Education />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
+    <PageTransition className="pt-0 sm:pt-0">
+      <Hero />
+    </PageTransition>
   );
 }

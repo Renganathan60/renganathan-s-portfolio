@@ -1,118 +1,157 @@
+import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowRight, Download, Sparkles } from "lucide-react";
+import { ArrowRight, Download, Sparkles, CheckCircle2 } from "lucide-react";
 import portrait from "@/assets/portrait.jpg";
-import { pressable, floating } from "@/lib/motion-presets";
+import { pressable } from "@/lib/motion-presets";
+import { useResumeModal } from "@/context/ResumeContext";
 
 export function Hero() {
   const reduce = useReducedMotion();
+  const { openResume } = useResumeModal();
+  const [cardTilt, setCardTilt] = useState({ x: 0, y: 0 });
 
-  const fade = (delay: number) => ({
-    initial: reduce ? { opacity: 0 } : { opacity: 0, y: 26 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] as const },
-  });
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (reduce) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 12;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -12;
+    setCardTilt({ x, y });
+  };
+
+  const handleMouseLeave = () => {
+    setCardTilt({ x: 0, y: 0 });
+  };
 
   return (
-    <section id="home" className="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-28">
-      <div className="pointer-events-none absolute -top-24 -right-24 h-80 w-80 rounded-full bg-primary-soft blur-3xl" />
-      <div className="pointer-events-none absolute top-1/2 -left-32 h-72 w-72 rounded-full bg-surface blur-3xl" />
+    <section className="relative overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-28">
+      <div className="section-shell grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+        <motion.div
+          initial={reduce ? { opacity: 0 } : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {/* Status Badge */}
+          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-1.5 text-xs font-semibold text-muted-foreground shadow-xs">
+            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+            Open to Full Time Role
+          </span>
 
-      <div className="section-shell grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
-        <div>
-          <motion.span
-            {...fade(0)}
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-1.5 text-xs font-semibold text-muted-foreground"
-          >
-            <span className="h-2 w-2 rounded-full bg-primary" />
-            Available for Internship
-          </motion.span>
-
-          <motion.h1 {...fade(0.08)} className="mt-6 text-4xl font-bold sm:text-6xl">
-            <span className="block text-muted-foreground text-2xl font-medium sm:text-3xl">
+          {/* Heading */}
+          <h1 className="mt-6 text-4xl font-bold tracking-tight sm:text-6xl text-foreground">
+            <span className="block text-muted-foreground text-2xl font-medium sm:text-3xl mb-1">
               Hi, I&apos;m
             </span>
-            <span className="mt-1 block text-foreground">Renganathan S</span>
-          </motion.h1>
+            <span className="text-foreground">Renganathan S</span>
+          </h1>
 
-          <motion.p
-            {...fade(0.16)}
-            className="mt-3 font-display text-xl font-semibold text-gradient sm:text-2xl"
-          >
+          {/* Subtitle */}
+          <p className="mt-3 font-display text-2xl font-bold text-gradient sm:text-3xl">
             Frontend Developer
-          </motion.p>
+          </p>
 
-          <motion.p
-            {...fade(0.24)}
-            className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground"
-          >
+          {/* Introduction */}
+          <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
             I build responsive, accessible web applications with React, JavaScript, HTML and CSS —
             focused on clean interfaces, smooth interactions and performance that holds up on every
             screen size.
-          </motion.p>
+          </p>
 
-          <motion.div {...fade(0.32)} className="mt-8 flex flex-wrap gap-3">
-            <motion.a
+          {/* CTA Buttons */}
+          <div className="mt-8 flex flex-wrap gap-4">
+            <motion.div {...pressable(reduce)}>
+              <Link
+                to="/projects"
+                className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-soft transition-all hover:bg-primary-hover hover:shadow-lift"
+              >
+                <span>View Projects</span>
+                <ArrowRight size={16} />
+              </Link>
+            </motion.div>
+
+            <motion.button
               {...pressable(reduce)}
-              href="#projects"
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-soft transition-colors hover:bg-primary-hover"
+              onClick={openResume}
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-6 py-3.5 text-sm font-semibold text-foreground shadow-xs transition-all hover:bg-muted hover:border-primary/40 cursor-pointer"
             >
-              View Projects <ArrowRight size={16} />
-            </motion.a>
-            <motion.a
-              {...pressable(reduce)}
-              href="/resume.pdf"
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-surface"
-            >
-              <Download size={16} /> Download Resume
-            </motion.a>
-          </motion.div>
+              <Download size={16} className="text-primary" />
+              <span>View &amp; Download Resume</span>
+            </motion.button>
+          </div>
 
-          <motion.div
-            {...fade(0.4)}
-            className="mt-10 flex flex-wrap gap-8 border-t border-border pt-6"
-          >
-            {[
-              { k: "7.455", v: "CGPA" },
-              { k: "2+", v: "Projects shipped" },
-              { k: "10+", v: "Tools & tech" },
-            ].map((s) => (
-              <div key={s.v}>
-                <p className="font-display text-2xl font-bold text-foreground">{s.k}</p>
-                <p className="text-xs uppercase tracking-wider text-muted-foreground">{s.v}</p>
-              </div>
-            ))}
-          </motion.div>
-        </div>
+          {/* Key Statistics Strip */}
+          <div className="mt-12 grid grid-cols-3 gap-4 border-t border-border/80 pt-8 max-w-lg">
+            <div className="rounded-2xl bg-surface/70 border border-border/60 p-4 text-center sm:text-left">
+              <p className="font-display text-2xl sm:text-3xl font-bold text-foreground">7.47</p>
+              <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                CGPA
+              </p>
+            </div>
+            <div className="rounded-2xl bg-surface/70 border border-border/60 p-4 text-center sm:text-left">
+              <p className="font-display text-2xl sm:text-3xl font-bold text-foreground">2+</p>
+              <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Projects Shipped
+              </p>
+            </div>
+            <div className="rounded-2xl bg-surface/70 border border-border/60 p-4 text-center sm:text-left">
+              <p className="font-display text-2xl sm:text-3xl font-bold text-foreground">10+</p>
+              <p className="mt-0.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Tools &amp; Tech
+              </p>
+            </div>
+          </div>
+        </motion.div>
 
+        {/* Profile Visual with Subtle Parallax Tilt */}
         <motion.div
-          initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.94 }}
+          initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mx-auto w-full max-w-sm"
+          transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+          className="relative mx-auto w-full max-w-sm sm:max-w-md lg:max-w-none flex justify-center"
         >
-          <motion.div
-            {...floating(reduce)}
-            className="relative"
+          <div
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            style={{
+              transform: `perspective(1000px) rotateX(${cardTilt.y}deg) rotateY(${cardTilt.x}deg)`,
+              transition: "transform 0.2s ease-out",
+            }}
+            className="relative w-full max-w-sm"
           >
-            <div className="absolute -top-8 -left-8 h-28 w-28 rounded-full bg-primary/15 blur-2xl" />
-            <div className="absolute -bottom-10 -right-6 h-36 w-36 rounded-full bg-primary/20 blur-3xl" />
-            <div className="card-soft relative overflow-hidden p-3">
+            {/* Soft backdrop glow */}
+            <div className="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-primary/20 via-accent/20 to-transparent blur-xl -z-10" />
+
+            <div className="card-soft relative overflow-hidden p-3.5 shadow-lift bg-background">
               <img
                 src={portrait}
-                alt="Portrait of Renganathan S, frontend developer"
+                alt="Portrait of Renganathan S, Frontend Developer"
                 width={912}
                 height={1104}
-                className="w-full rounded-[calc(var(--radius)-0.5rem)] object-cover"
+                className="w-full rounded-[calc(var(--radius)-0.5rem)] object-cover aspect-[4/5]"
               />
+
+              {/* Status Overlay */}
+              <div className="absolute top-6 left-6 rounded-full bg-background/90 backdrop-blur-md border border-border/80 px-3 py-1 text-[11px] font-semibold text-foreground flex items-center gap-1.5 shadow-xs">
+                <CheckCircle2 size={13} className="text-primary" />
+                <span>Available Now</span>
+              </div>
             </div>
+
+            {/* Badge Floating on Bottom Left */}
             <motion.div
-              {...floating(reduce, -10, 5)}
-              className="card-soft absolute -bottom-6 -left-6 flex items-center gap-2 px-4 py-3"
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="card-soft absolute -bottom-5 -left-4 sm:-left-6 flex items-center gap-2.5 px-4 py-3 shadow-lift bg-background/95 backdrop-blur-md"
             >
-              <Sparkles size={16} className="text-primary" />
-              <span className="text-xs font-semibold text-foreground">React · Tailwind</span>
+              <div className="grid h-8 w-8 place-items-center rounded-xl bg-primary-soft text-primary">
+                <Sparkles size={16} />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-foreground">React · Tailwind</p>
+                <p className="text-[10px] text-muted-foreground">Modern UI Stack</p>
+              </div>
             </motion.div>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>
